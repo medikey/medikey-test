@@ -18,6 +18,7 @@ import { PatientRecords } from '@/components/clinician/PatientRecords';
 import { ActivityHistory } from '@/components/shared/ActivityHistory';
 import { Analytics } from '@/components/shared/Analytics';
 import { PaymentHistory } from '@/components/shared/LightningPayment';
+import { WelcomeTutorial } from '@/components/WelcomeTutorial';
 
 export function Dashboard() {
   const { state } = useMediKey();
@@ -66,7 +67,7 @@ export function Dashboard() {
     <div className="min-h-screen bg-background">
       <div className="flex">
         <Navigation currentView={currentView} onViewChange={setCurrentView} />
-        
+
         <main className={`flex-1 ${!isMobile ? 'lg:ml-72' : ''}`}>
           <div className="p-6 lg:p-8">
             <div className="max-w-7xl mx-auto">
@@ -75,6 +76,8 @@ export function Dashboard() {
           </div>
         </main>
       </div>
+
+      <WelcomeTutorial />
     </div>
   );
 }

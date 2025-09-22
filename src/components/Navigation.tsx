@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Shield, 
-  FileText, 
-  Share2, 
-  BarChart3, 
-  LogOut, 
-  Menu, 
+import {
+  Shield,
+  FileText,
+  Share2,
+  BarChart3,
+  LogOut,
+  Menu,
   X,
   UserCheck,
   Search
@@ -85,6 +85,12 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
 
       <div className="border-t pt-4 space-y-3">
         <div className="px-3 py-2 bg-muted rounded-lg">
+          {state.currentUser?.name && (
+            <>
+              <p className="text-xs font-medium text-muted-foreground mb-1">Account</p>
+              <p className="text-sm font-semibold mb-2">{state.currentUser.name}</p>
+            </>
+          )}
           <p className="text-xs font-medium text-muted-foreground mb-1">Your Key ID</p>
           <p className="text-xs font-mono break-all">
             {state.currentUser?.publicKey?.substring(0, 20)}...
@@ -93,7 +99,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
             {state.currentUser?.role}
           </Badge>
         </div>
-        
+
         <Button
           variant="outline"
           className="w-full"

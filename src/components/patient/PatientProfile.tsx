@@ -15,7 +15,7 @@ export function PatientProfile() {
 
   const handleRegenerateKeys = () => {
     const { publicKey, privateKey } = generateKeyPair();
-    
+
     dispatch({
       type: 'SET_USER',
       payload: {
@@ -94,6 +94,12 @@ export function PatientProfile() {
               <Badge variant="secondary" className="mb-3">
                 Patient Account
               </Badge>
+              {state.currentUser.name && (
+                <div className="space-y-1 mb-3">
+                  <p className="text-sm font-medium">Patient Name</p>
+                  <p className="text-lg font-semibold">{state.currentUser.name}</p>
+                </div>
+              )}
               <div className="space-y-2">
                 <p className="text-sm font-medium">Patient ID</p>
                 <div className="flex items-center space-x-2">

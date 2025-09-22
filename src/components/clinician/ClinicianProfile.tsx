@@ -35,7 +35,7 @@ export function ClinicianProfile() {
   const accessibleRecords = state.accessGrants.filter(
     grant => grant.clinicianId === state.currentUser.publicKey && grant.isActive
   );
-  
+
   const verifiedPayments = state.payments.filter(
     payment => payment.userId === state.currentUser.publicKey && payment.status === 'paid'
   );
@@ -69,6 +69,12 @@ export function ClinicianProfile() {
                 <Stethoscope className="h-3 w-3 mr-1" />
                 Clinician Account
               </Badge>
+              {state.currentUser.name && (
+                <div className="space-y-1 mb-3">
+                  <p className="text-sm font-medium">Clinician Name</p>
+                  <p className="text-lg font-semibold">{state.currentUser.name}</p>
+                </div>
+              )}
               <div className="space-y-2">
                 <p className="text-sm font-medium">Clinician ID</p>
                 <div className="flex items-center space-x-2">
@@ -199,7 +205,7 @@ export function ClinicianProfile() {
                 <Badge variant="secondary">Basic Verification</Badge>
               </div>
             </div>
-            
+
             <div className="space-y-3">
               <div>
                 <p className="text-sm font-medium">Network Status</p>
