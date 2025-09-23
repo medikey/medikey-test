@@ -69,27 +69,29 @@ export function PatientProfile() {
   if (!state.currentUser) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Patient Profile</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-4xl font-bold text-gradient mb-2">Patient Profile</h1>
+        <p className="text-lg text-muted-foreground">
           Manage your cryptographic keys and account settings
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-8">
         {/* Identity Card */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Shield className="h-5 w-5" />
-              <span>Identity</span>
-            </CardTitle>
-            <CardDescription>
+        <div className="crypto-card rounded-3xl p-8">
+          <div className="mb-6">
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="p-2 bg-blue-100 rounded-xl">
+                <Shield className="h-5 w-5 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold">Identity</h3>
+            </div>
+            <p className="text-muted-foreground">
               Your secure patient identifier
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </p>
+          </div>
+          <div className="space-y-6">
             <div>
               <Badge variant="secondary" className="mb-3">
                 Patient Account
@@ -102,14 +104,15 @@ export function PatientProfile() {
               )}
               <div className="space-y-2">
                 <p className="text-sm font-medium">Patient ID</p>
-                <div className="flex items-center space-x-2">
-                  <code className="flex-1 p-2 bg-muted rounded text-xs font-mono break-all">
+                <div className="flex items-center space-x-3">
+                  <code className="flex-1 p-3 bg-muted/50 rounded-xl text-xs font-mono break-all border border-border/50">
                     {state.currentUser.publicKey}
                   </code>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => copyToClipboard(state.currentUser.publicKey, 'public')}
+                    className="h-10 px-3 rounded-xl border-border/50"
                   >
                     {copiedPublic ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                   </Button>
@@ -124,21 +127,23 @@ export function PatientProfile() {
                 <span className="text-sm text-muted-foreground">Keys Active</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Key Management */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              <Key className="h-5 w-5" />
-              <span>Key Management</span>
-            </CardTitle>
-            <CardDescription>
+        <div className="crypto-card rounded-3xl p-8">
+          <div className="mb-6">
+            <div className="flex items-center space-x-3 mb-2">
+              <div className="p-2 bg-green-100 rounded-xl">
+                <Key className="h-5 w-5 text-green-600" />
+              </div>
+              <h3 className="text-xl font-bold">Key Management</h3>
+            </div>
+            <p className="text-muted-foreground">
               Manage your cryptographic keys securely
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </p>
+          </div>
+          <div className="space-y-6">
             <div>
               <p className="text-sm font-medium mb-2">Private Key</p>
               <div className="flex items-center space-x-2">
@@ -182,43 +187,41 @@ export function PatientProfile() {
                 </AlertDialogContent>
               </AlertDialog>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Statistics */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Account Statistics</CardTitle>
-          <CardDescription>
+      <div className="crypto-card rounded-3xl p-8">
+        <div className="mb-6">
+          <h3 className="text-xl font-bold mb-2">Account Statistics</h3>
+          <p className="text-muted-foreground">
             Overview of your MediKey activity
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-primary">{state.records.length}</div>
-              <div className="text-sm text-muted-foreground">Records</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">
-                {state.accessGrants.filter(g => g.isActive).length}
-              </div>
-              <div className="text-sm text-muted-foreground">Active Shares</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {state.payments.filter(p => p.status === 'paid').length}
-              </div>
-              <div className="text-sm text-muted-foreground">Payments</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600">{state.activityLog.length}</div>
-              <div className="text-sm text-muted-foreground">Activities</div>
-            </div>
+          </p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="text-center p-4 rounded-2xl bg-muted/30">
+            <div className="text-3xl font-bold text-primary mb-1">{state.records.length}</div>
+            <div className="text-sm text-muted-foreground font-medium">Records</div>
           </div>
-        </CardContent>
-      </Card>
+          <div className="text-center p-4 rounded-2xl bg-muted/30">
+            <div className="text-3xl font-bold text-green-600 mb-1">
+              {state.accessGrants.filter(g => g.isActive).length}
+            </div>
+            <div className="text-sm text-muted-foreground font-medium">Active Shares</div>
+          </div>
+          <div className="text-center p-4 rounded-2xl bg-muted/30">
+            <div className="text-3xl font-bold text-blue-600 mb-1">
+              {state.payments.filter(p => p.status === 'paid').length}
+            </div>
+            <div className="text-sm text-muted-foreground font-medium">Payments</div>
+          </div>
+          <div className="text-center p-4 rounded-2xl bg-muted/30">
+            <div className="text-3xl font-bold text-orange-600 mb-1">{state.activityLog.length}</div>
+            <div className="text-sm text-muted-foreground font-medium">Activities</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

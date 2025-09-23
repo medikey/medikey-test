@@ -64,12 +64,12 @@ export function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen gradient-bg">
       <div className="flex">
         <Navigation currentView={currentView} onViewChange={setCurrentView} />
 
         <main className={`flex-1 ${!isMobile ? 'lg:ml-72' : ''}`}>
-          <div className="p-6 lg:p-8">
+          <div className="p-6 lg:p-10">
             <div className="max-w-7xl mx-auto">
               {renderContent()}
             </div>

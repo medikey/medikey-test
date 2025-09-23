@@ -15,7 +15,7 @@ export function UploadRecord() {
   const { state, dispatch } = useMediKey();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
   const [formData, setFormData] = useState({
@@ -144,26 +144,26 @@ export function UploadRecord() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Upload Health Record</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-4xl font-bold text-gradient mb-2">Upload Health Record</h1>
+        <p className="text-lg text-muted-foreground">
           Securely upload your medical documents to the blockchain
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Record Details</CardTitle>
-          <CardDescription>
+      <div className="crypto-card rounded-3xl p-8">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold mb-2">Record Details</h2>
+          <p className="text-muted-foreground">
             Provide information about your health record
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+          </p>
+        </div>
+        <div className="space-y-8">
           {/* File Upload */}
           <div className="space-y-2">
             <Label htmlFor="file-upload">Document File</Label>
-            <div className="border-2 border-dashed border-border rounded-lg p-6 text-center">
+            <div className="border-2 border-dashed border-border/50 rounded-2xl p-8 text-center bg-muted/20 hover:bg-muted/30 transition-colors">
               {selectedFile ? (
                 <div className="space-y-3">
                   <div className="flex items-center justify-center text-primary">
@@ -195,6 +195,7 @@ export function UploadRecord() {
                   <Button
                     variant="outline"
                     onClick={() => fileInputRef.current?.click()}
+                    className="h-11 px-6 rounded-xl border-border/50"
                   >
                     Choose File
                   </Button>
@@ -234,6 +235,7 @@ export function UploadRecord() {
               placeholder="Enter a descriptive title"
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+              className="h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
             />
           </div>
 
@@ -245,6 +247,7 @@ export function UploadRecord() {
               placeholder="Additional details about this record"
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              className="rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
             />
           </div>
 
@@ -256,6 +259,7 @@ export function UploadRecord() {
               placeholder="Enter tags separated by commas"
               value={formData.tags}
               onChange={(e) => setFormData(prev => ({ ...prev, tags: e.target.value }))}
+              className="h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
             />
             <p className="text-xs text-muted-foreground">
               e.g., routine, urgent, follow-up
@@ -282,19 +286,19 @@ export function UploadRecord() {
           )}
 
           {/* Action Buttons */}
-          <div className="flex space-x-3 pt-4">
+          <div className="flex space-x-4 pt-6">
             <Button
               onClick={handleUpload}
               disabled={!selectedFile || !formData.title || isUploading || uploadComplete}
-              className="flex-1"
+              className="flex-1 h-12 rounded-xl button-gradient font-medium"
             >
               {isUploading ? 'Uploading...' : 'Upload Record'}
             </Button>
-            
+
             <Button
               variant="outline"
               disabled={isUploading}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 h-12 px-6 rounded-xl border-border/50"
             >
               <Zap className="h-4 w-4" />
               <span>Request Verification</span>
@@ -304,8 +308,8 @@ export function UploadRecord() {
           <p className="text-xs text-muted-foreground">
             Records are encrypted and stored securely on the blockchain. Only you control access to your data.
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
