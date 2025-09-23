@@ -9,7 +9,14 @@ import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMediKey, generateKeyPair, generateId } from '@/contexts/MediKeyContext';
 import type { UserRole } from '@/types/medikey';
-import { Shield, Key, Users, Activity, UserPlus, LogIn, CheckCircle, Copy, RefreshCw, Check } from 'lucide-react';
+import { UserPlus, LogIn, CheckCircle, Copy, RefreshCw, Check } from 'lucide-react';
+import {
+  MediKeyLogo,
+  SecureIcon,
+  ShareIcon,
+  LightningIcon,
+  KeyIcon
+} from '@/components/icons/BitcoinIcons';
 import { useToast } from '@/hooks/useToast';
 
 export function LandingPage() {
@@ -163,7 +170,7 @@ export function LandingPage() {
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl"></div>
                 <div className="relative p-4 bg-primary rounded-2xl">
-                  <Shield className="h-10 w-10 text-primary-foreground" />
+                  <MediKeyLogo size={40} className="text-primary-foreground" />
                 </div>
               </div>
               <div className="text-left">
@@ -188,9 +195,9 @@ export function LandingPage() {
         <div className="grid md:grid-cols-3 gap-8 mb-20">
           <div className="crypto-card rounded-3xl p-8 text-center group hover:scale-105 transition-all duration-300">
             <div className="relative mb-6">
-              <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl"></div>
-              <div className="relative w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
-                <Key className="h-8 w-8 text-white" />
+              <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-xl"></div>
+              <div className="relative w-16 h-16 mx-auto bg-gradient-to-br from-amber-600 to-amber-700 rounded-2xl flex items-center justify-center">
+                <SecureIcon className="h-8 w-8 text-white" size={32} />
               </div>
             </div>
             <h3 className="text-xl font-bold text-foreground mb-3">Cryptographic Security</h3>
@@ -201,9 +208,9 @@ export function LandingPage() {
 
           <div className="crypto-card rounded-3xl p-8 text-center group hover:scale-105 transition-all duration-300">
             <div className="relative mb-6">
-              <div className="absolute inset-0 bg-green-500/20 rounded-full blur-xl"></div>
-              <div className="relative w-16 h-16 mx-auto bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center">
-                <Users className="h-8 w-8 text-white" />
+              <div className="absolute inset-0 bg-emerald-500/20 rounded-full blur-xl"></div>
+              <div className="relative w-16 h-16 mx-auto bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-2xl flex items-center justify-center">
+                <ShareIcon className="h-8 w-8 text-white" size={32} />
               </div>
             </div>
             <h3 className="text-xl font-bold text-foreground mb-3">Role-Based Access</h3>
@@ -216,7 +223,7 @@ export function LandingPage() {
             <div className="relative mb-6">
               <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-xl"></div>
               <div className="relative w-16 h-16 mx-auto bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center">
-                <Activity className="h-8 w-8 text-white" />
+                <LightningIcon className="h-8 w-8 text-white" size={32} />
               </div>
             </div>
             <h3 className="text-xl font-bold text-foreground mb-3">Lightning Payments</h3>
@@ -485,7 +492,7 @@ export function LandingPage() {
                           </div>
                           <div className="rounded-xl bg-red-50 border border-red-200 p-3">
                             <p className="text-xs text-red-800 flex items-center">
-                              <Shield className="h-3 w-3 mr-2 flex-shrink-0" />
+                              <SecureIcon className="h-3 w-3 mr-2 flex-shrink-0" size={12} />
                               Save your private key securely. You'll need it to access your account.
                             </p>
                           </div>
@@ -517,7 +524,7 @@ export function LandingPage() {
         {/* Footer */}
         <div className="text-center mt-20 space-y-4">
           <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-muted/50 border border-border/50">
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <SecureIcon className="h-4 w-4 text-muted-foreground" size={16} />
             <span className="text-sm text-muted-foreground">Built for healthcare privacy and security</span>
           </div>
           <p className="text-xs text-muted-foreground">
