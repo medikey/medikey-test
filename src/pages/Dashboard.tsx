@@ -8,11 +8,13 @@ import { PatientProfile } from '@/components/patient/PatientProfile';
 import { UploadRecord } from '@/components/patient/UploadRecord';
 import { RecordList } from '@/components/patient/RecordList';
 import { ShareAccess } from '@/components/patient/ShareAccess';
+import { PatientSettings } from '@/components/patient/PatientSettings';
 
 // Clinician Components
 import { ClinicianProfile } from '@/components/clinician/ClinicianProfile';
 import { RequestAccess } from '@/components/clinician/RequestAccess';
 import { PatientRecords } from '@/components/clinician/PatientRecords';
+import { ClinicianSettings } from '@/components/clinician/ClinicianSettings';
 
 // Shared Components
 import { ActivityHistory } from '@/components/shared/ActivityHistory';
@@ -44,6 +46,8 @@ export function Dashboard() {
           return <ActivityHistory />;
         case 'analytics':
           return <Analytics />;
+        case 'settings':
+          return <PatientSettings />;
         default:
           return <PatientProfile />;
       }
@@ -57,6 +61,8 @@ export function Dashboard() {
           return <PatientRecords />;
         case 'analytics':
           return <Analytics />;
+        case 'settings':
+          return <ClinicianSettings />;
         default:
           return <ClinicianProfile />;
       }

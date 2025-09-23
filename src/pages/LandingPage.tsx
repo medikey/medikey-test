@@ -9,7 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useMediKey, generateKeyPair, generateId } from '@/contexts/MediKeyContext';
 import type { UserRole } from '@/types/medikey';
-import { Shield, Key, Users, Activity, UserPlus, LogIn, CheckCircle, Copy, RefreshCw } from 'lucide-react';
+import { Shield, Key, Users, Activity, UserPlus, LogIn, CheckCircle, Copy, RefreshCw, Check } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 
 export function LandingPage() {
@@ -20,6 +20,7 @@ export function LandingPage() {
   const [keyInput, setKeyInput] = useState('');
   const [selectedRole, setSelectedRole] = useState<UserRole>('patient');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [copiedLoginKey, setCopiedLoginKey] = useState(false);
 
   // Create account state
   const [newAccount, setNewAccount] = useState<{
@@ -265,6 +266,23 @@ export function LandingPage() {
                         onChange={(e) => setKeyInput(e.target.value)}
                         className="font-mono text-sm h-12 rounded-xl border-border/50 bg-muted/30 focus:bg-background transition-colors"
                       />
+                      {keyInput && (
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            navigator.clipboard.writeText(keyInput);
+                            setCopiedLoginKey(true);
+                            setTimeout(() => setCopiedLoginKey(false), 2000);
+                            toast({
+                              title: 'Copied!',
+                              description: 'Key copied to clipboard.',
+                            });
+                          }}
+                          className="shrink-0 h-12 px-4 rounded-xl border-border/50"
+                        >
+                          {copiedLoginKey ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                        </Button>
+                      )}
                       <Button
                         variant="outline"
                         onClick={handleGenerateKeys}

@@ -35,6 +35,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
     { id: 'share', label: 'Share Access', icon: Share2 },
     { id: 'history', label: 'History', icon: BarChart3 },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'settings', label: 'Settings', icon: UserCheck },
   ];
 
   const clinicianMenuItems = [
@@ -42,6 +43,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
     { id: 'request', label: 'Request Access', icon: Search },
     { id: 'records', label: 'Patient Records', icon: FileText },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+    { id: 'settings', label: 'Settings', icon: UserCheck },
   ];
 
   const menuItems = state.currentUser?.role === 'patient' ? patientMenuItems : clinicianMenuItems;
@@ -139,7 +141,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
 
       {/* Sidebar */}
       <div className={cn(
-        'fixed lg:static inset-y-0 left-0 z-50 w-72 crypto-card border-r-0',
+        'fixed lg:static inset-y-0 left-0 z-50 w-72 bg-card border-r border-border shadow-xl',
         'transform transition-transform duration-200 ease-in-out',
         'lg:transform-none',
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'

@@ -1,47 +1,15 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { useMediKey, generateKeyPair } from '@/contexts/MediKeyContext';
-import { Shield, Key, RefreshCw, Copy, Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useMediKey } from '@/contexts/MediKeyContext';
+import { Shield, Key, Copy, Check } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 
 export function PatientProfile() {
-  const { state, dispatch } = useMediKey();
+  const { state } = useMediKey();
   const { toast } = useToast();
   const [copiedPublic, setCopiedPublic] = useState(false);
   const [copiedPrivate, setCopiedPrivate] = useState(false);
-
-  const handleRegenerateKeys = () => {
-    const { publicKey, privateKey } = generateKeyPair();
-
-    dispatch({
-      type: 'SET_USER',
-      payload: {
-        ...state.currentUser!,
-        publicKey,
-        privateKey
-      }
-    });
-
-    // Add activity log
-    dispatch({
-      type: 'ADD_ACTIVITY',
-      payload: {
-        id: Math.random().toString(36),
-        userId: publicKey,
-        action: 'access_request',
-        description: 'Regenerated cryptographic keys',
-        timestamp: new Date()
-      }
-    });
-
-    toast({
-      title: 'Keys Regenerated',
-      description: 'Your new cryptographic keys have been generated successfully.',
-    });
-  };
 
   const copyToClipboard = async (text: string, type: 'public' | 'private') => {
     try {
@@ -146,14 +114,15 @@ export function PatientProfile() {
           <div className="space-y-6">
             <div>
               <p className="text-sm font-medium mb-2">Private Key</p>
-              <div className="flex items-center space-x-2">
-                <code className="flex-1 p-2 bg-muted rounded text-xs font-mono break-all">
+              <div className="flex items-center space-x-3">
+                <code className="flex-1 p-3 bg-muted/50 rounded-xl text-xs font-mono break-all border border-border/50">
                   {state.currentUser.privateKey.substring(0, 20)}...
                 </code>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => copyToClipboard(state.currentUser.privateKey, 'private')}
+                  className="h-10 px-3 rounded-xl border-border/50"
                 >
                   {copiedPrivate ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 </Button>
@@ -163,29 +132,10 @@ export function PatientProfile() {
               </p>
             </div>
 
-            <div className="pt-4">
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="outline" className="w-full">
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Regenerate Keys
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Regenerate Cryptographic Keys?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This action will generate new public and private keys. Your current keys will be invalidated and you will lose access to previously shared records. This action cannot be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleRegenerateKeys}>
-                      Regenerate Keys
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+            <div className="pt-4 border-t border-border/50">
+              <p className="text-xs text-muted-foreground">
+                Need to regenerate your keys? Visit the Settings page to access security options.
+              </p>
             </div>
           </div>
         </div>
