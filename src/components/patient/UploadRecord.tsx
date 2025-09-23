@@ -6,14 +6,17 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
 import { useMediKey, generateId } from '@/contexts/MediKeyContext';
-import { Upload, FileText, Image, File, CheckCircle, Zap } from 'lucide-react';
+import { usePublishHealthRecord } from '@/hooks/useMediKeyNostr';
+import { Upload, FileText, Image, File, CheckCircle, Zap, Globe } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 import type { HealthRecord } from '@/types/medikey';
 
 export function UploadRecord() {
   const { state, dispatch } = useMediKey();
   const { toast } = useToast();
+  const { mutate: publishToNostr, isPending: isPublishingToNostr } = usePublishHealthRecord();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -26,6 +29,7 @@ export function UploadRecord() {
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadComplete, setUploadComplete] = useState(false);
+  const [publishToNostrEnabled, setPublishToNostrEnabled] = useState(true);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -98,6 +102,23 @@ export function UploadRecord() {
       // Add record to state
       dispatch({ type: 'ADD_RECORD', payload: record });
 
+      // Publish to Nostr if enabled
+      if (publishToNostrEnabled) {
+        try {
+          publishToNostr(record);
+          toast({
+            title: 'Published to Nostr',
+            description: 'Record has been published to the decentralized network.',
+          });
+        } catch (nostrError) {
+          toast({
+            title: 'Nostr Publish Warning',
+            description: 'Record saved locally but failed to publish to Nostr network.',
+            variant: 'destructive',
+          });
+        }
+      }
+
       // Add activity log
       dispatch({
         type: 'ADD_ACTIVITY',
@@ -105,9 +126,9 @@ export function UploadRecord() {
           id: generateId(),
           userId: state.currentUser.publicKey,
           action: 'upload',
-          description: `Uploaded ${formData.type} record: ${formData.title}`,
+          description: `Uploaded ${formData.type} record: ${formData.title}${publishToNostrEnabled ? ' (Published to Nostr)' : ' (Local only)'}`,
           timestamp: new Date(),
-          metadata: { recordId: record.id }
+          metadata: { recordId: record.id, publishedToNostr: publishToNostrEnabled }
         }
       });
 
@@ -289,10 +310,12 @@ export function UploadRecord() {
           <div className="flex space-x-4 pt-6">
             <Button
               onClick={handleUpload}
-              disabled={!selectedFile || !formData.title || isUploading || uploadComplete}
+              disabled={!selectedFile || !formData.title || isUploading || uploadComplete || isPublishingToNostr}
               className="flex-1 h-12 rounded-xl button-gradient font-medium"
             >
-              {isUploading ? 'Uploading...' : 'Upload Record'}
+              {isUploading ? 'Uploading...' :
+               isPublishingToNostr ? 'Publishing...' :
+               'Upload Record'}
             </Button>
 
             <Button
@@ -305,8 +328,31 @@ export function UploadRecord() {
             </Button>
           </div>
 
+          {/* Nostr Publishing Option */}
+          <div className="flex items-center justify-between p-4 rounded-xl border border-border/50 bg-blue-50/50">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <Globe className="h-4 w-4 text-blue-600" />
+              </div>
+              <div>
+                <h4 className="font-medium text-sm">Publish to Nostr Network</h4>
+                <p className="text-xs text-muted-foreground">
+                  Store on decentralized relays for maximum availability
+                </p>
+              </div>
+            </div>
+            <Button
+              variant={publishToNostrEnabled ? "default" : "outline"}
+              size="sm"
+              onClick={() => setPublishToNostrEnabled(!publishToNostrEnabled)}
+              className="rounded-lg"
+            >
+              {publishToNostrEnabled ? 'Enabled' : 'Disabled'}
+            </Button>
+          </div>
+
           <p className="text-xs text-muted-foreground">
-            Records are encrypted and stored securely on the blockchain. Only you control access to your data.
+            Records are encrypted and stored securely. {publishToNostrEnabled ? 'Publishing to Nostr provides decentralized backup and availability.' : 'Local storage only - enable Nostr for network backup.'}
           </p>
         </div>
       </div>

@@ -75,7 +75,7 @@ export function Dashboard() {
         <Navigation currentView={currentView} onViewChange={setCurrentView} />
 
         <main className={`flex-1 ${!isMobile ? 'lg:ml-72' : ''}`}>
-          <div className="p-6 lg:p-10">
+          <div className={`p-6 lg:p-10 ${isMobile ? 'pt-20' : ''}`}>
             <div className="max-w-7xl mx-auto">
               {renderContent()}
             </div>

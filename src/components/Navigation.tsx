@@ -10,7 +10,8 @@ import {
   Menu,
   X,
   UserCheck,
-  Search
+  Search,
+  Settings
 } from 'lucide-react';
 import { useMediKey } from '@/contexts/MediKeyContext';
 import { cn } from '@/lib/utils';
@@ -35,7 +36,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
     { id: 'share', label: 'Share Access', icon: Share2 },
     { id: 'history', label: 'History', icon: BarChart3 },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'settings', label: 'Settings', icon: UserCheck },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   const clinicianMenuItems = [
@@ -43,7 +44,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
     { id: 'request', label: 'Request Access', icon: Search },
     { id: 'records', label: 'Patient Records', icon: FileText },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'settings', label: 'Settings', icon: UserCheck },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
   const menuItems = state.currentUser?.role === 'patient' ? patientMenuItems : clinicianMenuItems;
@@ -91,7 +92,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
         })}
       </div>
 
-      <div className="border-t border-border/50 pt-6 space-y-4">
+      <div className="border-t border-border/50 pt-6 space-y-4 mt-auto">
         <div className="p-4 bg-muted/30 rounded-2xl border border-border/50">
           {state.currentUser?.name && (
             <>
@@ -146,7 +147,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
         'lg:transform-none',
         isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
       )}>
-        <div className="flex flex-col h-full p-8">
+        <div className="flex flex-col h-full p-8 pb-6">
           <NavContent />
         </div>
       </div>

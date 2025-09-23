@@ -269,14 +269,22 @@ export function LandingPage() {
                       {keyInput && (
                         <Button
                           variant="outline"
-                          onClick={() => {
-                            navigator.clipboard.writeText(keyInput);
-                            setCopiedLoginKey(true);
-                            setTimeout(() => setCopiedLoginKey(false), 2000);
-                            toast({
-                              title: 'Copied!',
-                              description: 'Key copied to clipboard.',
-                            });
+                          onClick={async () => {
+                            try {
+                              await navigator.clipboard.writeText(keyInput);
+                              setCopiedLoginKey(true);
+                              setTimeout(() => setCopiedLoginKey(false), 2000);
+                              toast({
+                                title: 'Copied!',
+                                description: 'Key copied to clipboard.',
+                              });
+                            } catch (err) {
+                              toast({
+                                title: 'Copy Failed',
+                                description: 'Failed to copy key to clipboard.',
+                                variant: 'destructive',
+                              });
+                            }
                           }}
                           className="shrink-0 h-12 px-4 rounded-xl border-border/50"
                         >

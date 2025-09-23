@@ -7,12 +7,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useMediKey, generateId } from '@/contexts/MediKeyContext';
+import { usePublishAccessGrant, usePublishAccessRevocation } from '@/hooks/useMediKeyNostr';
 import { useToast } from '@/hooks/useToast';
-import { 
-  Share2, 
-  UserCheck, 
-  FileText, 
-  Shield, 
+import {
+  Share2,
+  UserCheck,
+  FileText,
+  Shield,
   Calendar,
   Trash2,
   CheckCircle,
@@ -24,12 +25,14 @@ import type { HealthRecord } from '@/types/medikey';
 export function ShareAccess() {
   const { state, dispatch } = useMediKey();
   const { toast } = useToast();
-  
+  const { mutate: publishGrant } = usePublishAccessGrant();
+  const { mutate: publishRevocation } = usePublishAccessRevocation();
+
   const [selectedRecordId, setSelectedRecordId] = useState<string>('');
   const [clinicianPublicKey, setClinicianPublicKey] = useState('');
   const [isSharing, setIsSharing] = useState(false);
 
-  const userRecords = state.records.filter(record => 
+  const userRecords = state.records.filter(record =>
     record.patientId === state.currentUser?.publicKey
   );
 
@@ -50,8 +53,8 @@ export function ShareAccess() {
 
     // Check if already shared with this clinician
     const existingGrant = state.accessGrants.find(
-      grant => grant.recordId === selectedRecordId && 
-               grant.clinicianId === clinicianPublicKey && 
+      grant => grant.recordId === selectedRecordId &&
+               grant.clinicianId === clinicianPublicKey &&
                grant.isActive
     );
 
@@ -80,6 +83,13 @@ export function ShareAccess() {
       };
 
       dispatch({ type: 'ADD_ACCESS_GRANT', payload: grant });
+
+      // Publish to Nostr
+      try {
+        publishGrant(grant);
+      } catch (nostrError) {
+        console.warn('Failed to publish access grant to Nostr:', nostrError);
+      }
 
       // Add activity log
       const record = userRecords.find(r => r.id === selectedRecordId);
@@ -120,6 +130,13 @@ export function ShareAccess() {
     if (!grant || !state.currentUser) return;
 
     dispatch({ type: 'REVOKE_ACCESS', payload: { grantId } });
+
+    // Publish revocation to Nostr
+    try {
+      publishRevocation(grant);
+    } catch (nostrError) {
+      console.warn('Failed to publish access revocation to Nostr:', nostrError);
+    }
 
     // Add activity log
     const record = userRecords.find(r => r.id === grant.recordId);
@@ -274,7 +291,7 @@ export function ShareAccess() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="destructive" size="sm">
@@ -288,7 +305,7 @@ export function ShareAccess() {
                           <span>Revoke Access?</span>
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                          This will immediately revoke the clinician's access to "{getRecordTitle(grant.recordId)}". 
+                          This will immediately revoke the clinician's access to "{getRecordTitle(grant.recordId)}".
                           This action cannot be undone, but you can grant access again later.
                         </AlertDialogDescription>
                       </AlertDialogHeader>

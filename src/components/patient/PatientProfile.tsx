@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useMediKey } from '@/contexts/MediKeyContext';
+import { NostrSync } from '@/components/shared/NostrSync';
 import { Shield, Key, Copy, Check } from 'lucide-react';
 import { useToast } from '@/hooks/useToast';
 
@@ -140,6 +141,9 @@ export function PatientProfile() {
           </div>
         </div>
       </div>
+
+      {/* Nostr Sync */}
+      <NostrSync />
 
       {/* Statistics */}
       <div className="crypto-card rounded-3xl p-8">
