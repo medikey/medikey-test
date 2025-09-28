@@ -417,14 +417,14 @@ export function LandingPage() {
                     </>
                   ) : (
                     <>
-                      <div className="rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200/50 p-4">
+                      <div className="rounded-xl bg-gradient-to-r from-accent/10 to-accent/20 border border-accent/30 p-4">
                         <div className="flex items-start space-x-3">
-                          <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          <div className="flex-shrink-0 w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
+                            <CheckCircle className="h-4 w-4 text-accent" />
                           </div>
                           <div>
-                            <h4 className="font-medium text-green-900 mb-1">Account Created Successfully!</h4>
-                            <p className="text-sm text-green-700">
+                            <h4 className="font-medium text-accent-foreground mb-1">Account Created Successfully!</h4>
+                            <p className="text-sm text-accent-foreground/80">
                               Your Nostr healthcare identity has been generated with secure cryptographic keys.
                             </p>
                           </div>

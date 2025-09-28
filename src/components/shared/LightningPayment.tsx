@@ -186,7 +186,7 @@ export function LightningPaymentComponent({
 
   const getStatusIcon = (status: LightningPayment['status']) => {
     switch (status) {
-      case 'paid': return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case 'paid': return <CheckCircle className="h-4 w-4 text-accent" />;
       case 'failed': return <XCircle className="h-4 w-4 text-red-600" />;
       default: return <Clock className="h-4 w-4 text-orange-600" />;
     }
@@ -194,7 +194,7 @@ export function LightningPaymentComponent({
 
   const getStatusColor = (status: LightningPayment['status']) => {
     switch (status) {
-      case 'paid': return 'bg-green-100 text-green-800';
+      case 'paid': return 'bg-accent/20 text-accent-foreground';
       case 'failed': return 'bg-red-100 text-red-800';
       default: return 'bg-orange-100 text-orange-800';
     }
@@ -338,7 +338,7 @@ export function PaymentHistory() {
 
   const getStatusIcon = (status: LightningPayment['status']) => {
     switch (status) {
-      case 'paid': return <CheckCircle className="h-4 w-4 text-green-600" />;
+      case 'paid': return <CheckCircle className="h-4 w-4 text-accent" />;
       case 'failed': return <XCircle className="h-4 w-4 text-red-600" />;
       default: return <Clock className="h-4 w-4 text-orange-600" />;
     }
@@ -346,7 +346,7 @@ export function PaymentHistory() {
 
   const getStatusColor = (status: LightningPayment['status']) => {
     switch (status) {
-      case 'paid': return 'bg-green-100 text-green-800';
+      case 'paid': return 'bg-accent/20 text-accent-foreground';
       case 'failed': return 'bg-red-100 text-red-800';
       default: return 'bg-orange-100 text-orange-800';
     }

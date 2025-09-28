@@ -81,7 +81,7 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
                 'w-full justify-start h-12 rounded-xl transition-all duration-200 font-medium',
                 isActive
                   ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
-                  : 'hover:bg-muted/50'
+                  : 'hover:bg-accent/80 hover:text-accent-foreground'
               )}
               onClick={() => {
                 onViewChange(item.id);

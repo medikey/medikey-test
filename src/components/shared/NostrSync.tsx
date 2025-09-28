@@ -58,7 +58,7 @@ export function NostrSync() {
                 <h4 className="font-medium text-sm">Nostr Network</h4>
                 <Badge
                   variant={isOnline ? "default" : "secondary"}
-                  className={`text-xs ${isOnline ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}
+                  className={`text-xs ${isOnline ? 'bg-accent/20 text-accent-foreground' : 'bg-gray-100 text-gray-800'}`}
                 >
                   {isOnline ? (
                     <>

@@ -301,7 +301,7 @@ export function UploadRecord() {
 
           {/* Success State */}
           {uploadComplete && (
-            <div className="flex items-center space-x-2 text-green-600">
+            <div className="flex items-center space-x-2 text-accent">
               <CheckCircle className="h-5 w-5" />
               <span className="font-medium">Upload completed successfully!</span>
             </div>
