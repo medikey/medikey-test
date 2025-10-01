@@ -268,5 +268,3 @@ For security concerns or vulnerabilities, please email security@medikey.app (not
 ---
 
 **Built with ❤️ for healthcare privacy and patient empowerment**
-
-*Vibed with [MKStack](https://soapbox.pub/mkstack)*
