@@ -10,6 +10,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useLoginActions } from '@/hooks/useLoginActions';
 import { cn } from '@/lib/utils';
+import { useMediKey } from '@/contexts/MediKeyContext';
+import { useToast } from '@/hooks/useToast';
+import { UserRole } from '@/types/medikey';
 
 interface LoginDialogProps {
   isOpen: boolean;
@@ -26,7 +29,10 @@ const validateBunkerUri = (uri: string) => {
   return uri.startsWith('bunker://');
 };
 
+// Login State 
+
 const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose, onLogin, onSignup }) => {
+
   const [isLoading, setIsLoading] = useState(false);
   const [isFileLoading, setIsFileLoading] = useState(false);
   const [nsec, setNsec] = useState('');
@@ -179,10 +185,26 @@ const LoginDialog: React.FC<LoginDialogProps> = ({ isOpen, onClose, onLogin, onS
 
   const defaultTab = 'nostr' in window ? 'extension' : 'key';
 
+  
+
+const handleLogin = () => {
+const { dispatch } = useMediKey();
+
+const [selectedRole, setSelectedRole] = useState<UserRole>('patient');
+const [isGenerating, setIsGenerating] = useState(false);
+    dispatch({
+      type: 'SET_USER',
+      payload: {
+        role: selectedRole,
+        publicKey: '',
+        privateKey: ''
+      }
+    });
+};
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className={cn("max-w-[95vw] sm:max-w-md max-h-[90vh] max-h-[90dvh] p-0 overflow-hidden rounded-2xl overflow-y-scroll")}
+        className={cn("max-w-[95vw] sm:max-w-md max-h-[90dvh] p-0 overflow-hidden rounded-2xl overflow-y-scroll")}
       >
         <DialogHeader className={cn('px-6 pt-6 pb-1 relative')}>
 
